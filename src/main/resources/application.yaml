@@ -1,0 +1,17 @@
+importer:
+  folder: files-to-process
+spring:
+#   servlet:
+#     multipart:
+#       max-file-size: 128KB
+#       max-request-size: 128KB
+  batch:
+    job:
+      enabled: false
+#   jdbc:
+#     initialize-schema: always
+  rabbitmq:
+    username: admin
+    password: admin
+    template:
+      exchange: 
