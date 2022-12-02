@@ -1,0 +1,12 @@
+importer:
+  folder: files-to-process
+spring:
+  servlet:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
