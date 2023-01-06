@@ -1,12 +1,15 @@
 package com.malpro.importer.service;
 
+import com.malpro.importer.configuration.ImporterProperties;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,12 +20,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Stream;
 
-import static com.malpro.importer.service.StorageService.FILES_DIRECTORY;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -33,13 +34,21 @@ class StorageServiceTest {
     private static final String FILE_NAME = "test.json";
     static Path uploadPath;
     static MultipartFile multipartFile;
+    @Mock
+    private ImporterProperties importerProperties;
     @InjectMocks
     private StorageService storageService;
 
+
     @BeforeAll
     public static void setup() {
-        uploadPath = Paths.get(FILES_DIRECTORY);
         multipartFile = new MockMultipartFile(FILE_NAME, new byte[16]);
+    }
+
+    @BeforeEach
+    public void initializeConfig() {
+        when(importerProperties.getFolder()).thenReturn("importer/files-to-process");
+        uploadPath = Paths.get(importerProperties.getFolder());
     }
 
     @AfterEach

@@ -1,5 +1,5 @@
 importer:
-  folder: files-to-process
+  folder: importer/files-to-process
 spring:
   servlet:
     multipart:
@@ -10,3 +10,8 @@ spring:
       initialize-schema: always
     job:
       enabled: false
+rabbitmq:
+  store-product:
+    exchange:
+    queue:
+    dead-letter-queue:

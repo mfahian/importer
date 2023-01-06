@@ -1,7 +1,9 @@
 package com.malpro.importer.configuration;
 
-import com.malpro.importer.example.Person;
+import com.malpro.importer.dto.ItemDto;
 import com.malpro.importer.example.PersonItemProcessor;
+import com.malpro.importer.processor.ItemDtoProcessor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -9,9 +11,13 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.amqp.AmqpItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.json.JacksonJsonObjectReader;
+import org.springframework.batch.item.json.JsonItemReader;
+import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,10 +44,14 @@ public class BatchConfiguration {
 
     private final ImporterProperties importerProperties;
 
-    public BatchConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory, ImporterProperties importerProperties) {
+    private final RabbitTemplate rabbitTemplate;
+
+    public BatchConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory,
+                              ImporterProperties importerProperties, RabbitTemplate rabbitTemplate) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.importerProperties = importerProperties;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @Bean
@@ -73,15 +83,25 @@ public class BatchConfiguration {
 
     @Bean
     @StepScope
-    public FlatFileItemReader<Person> reader(@Value("#{jobParameters['" + BATCH_LOADER_FILE_NAME + "']}") String fileName) {
-        return new FlatFileItemReaderBuilder<Person>()
+    public FlatFileItemReader<ItemDto> reader(@Value("#{jobParameters['" + BATCH_LOADER_FILE_NAME + "']}") String fileName) {
+        return new FlatFileItemReaderBuilder<ItemDto>()
                 .name(PROCESS_ITEM_READER)
                 .resource(new PathResource(Paths.get(importerProperties.getFolder() + File.separator + fileName)))
                 .delimited()
                 .names(new String[]{"firstName", "lastName"})
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
-                    setTargetType(Person.class);
+                    setTargetType(ItemDto.class);
                 }})
+                .build();
+    }
+
+    @Bean
+    @StepScope
+    public JsonItemReader<ItemDto> jsonReader(@Value("#{jobParameters['" + BATCH_LOADER_FILE_NAME + "']}") String fileName) {
+        return new JsonItemReaderBuilder<ItemDto>()
+                .jsonObjectReader(new JacksonJsonObjectReader<>(ItemDto.class))
+                .resource(new PathResource(Paths.get(importerProperties.getFolder() + File.separator + fileName)))
+                .name(PROCESS_ITEM_READER + "-json")
                 .build();
     }
 
@@ -92,19 +112,30 @@ public class BatchConfiguration {
     }
 
     @Bean
+    public ItemDtoProcessor itemDtoProcessor() {
+        return new ItemDtoProcessor();
+    }
+
+    @Bean
     @StepScope
-    public ItemWriter<Person> writer() {
+    public ItemWriter<ItemDto> writer() {
         return list -> {
-            for (Person person : list) {
+            for (ItemDto person : list) {
                 System.err.println("Person item: " + person);
             }
         };
     }
 
     @Bean
-    public Step step(FlatFileItemReader<Person> reader,PersonItemProcessor processor, ItemWriter<Person> writer) {
+    public AmqpItemWriter<ItemDto> amqpWriter(){
+        AmqpItemWriter<ItemDto> amqpItemWriter = new AmqpItemWriter<>(this.rabbitTemplate);
+        return amqpItemWriter;
+    }
+
+    @Bean
+    public Step step(JsonItemReader<ItemDto> reader, ItemDtoProcessor processor, ItemWriter<ItemDto> writer) {
         return stepBuilderFactory.get(LOADER_STEP)
-                .<Person, Person> chunk(1)
+                .<ItemDto, ItemDto>chunk(1)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

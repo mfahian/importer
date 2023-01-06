@@ -1,2 +1,7 @@
 server:
   port: 8088
+rabbitmq:
+  store-product:
+    exchange: store-product.dx
+    queue: store-product.q
+    dead-letter-queue: store-product.dlq
