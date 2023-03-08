@@ -51,15 +51,16 @@ class ImportControllerTest {
 
     @Test
     @DisplayName("File successfully received test")
-    void fileSuccessfullyReceivedTest(@Random String supplierUUID, @Random UUID uuid) throws IOException, JobInstanceAlreadyCompleteException,
+    void fileSuccessfullyReceivedTest(@Random UUID uuid) throws IOException, JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
+        var supplierUUID = "1234";
         var fileName = uuid.toString() + ".json";
         MultipartFile file = mock(MultipartFile.class);
 
         assertThat(supplierUUID, Matchers.notNullValue());
         assertThat(fileName, Matchers.notNullValue());
-
+        
         when(iStorageService.saveFile(file)).thenReturn(fileName);
         doNothing().when(batchImportService).processBatch(fileName, supplierUUID);
 
@@ -81,7 +82,7 @@ class ImportControllerTest {
 
         assertThat(response.getStatusCode(), Matchers.is(HttpStatus.BAD_REQUEST));
 
-        verify(batchImportService, never()).processBatch(anyString(), anyString());
+        verify(batchImportService, never()).processBatch(anyString()+"", anyString()+"");
 
     }
 
@@ -96,7 +97,7 @@ class ImportControllerTest {
         final var response = importController.handleFileUpload(supplierUUID, file);
 
         assertThat(response.getStatusCode(), Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR));
-        verify(batchImportService, never()).processBatch(anyString(), anyString());
+        verify(batchImportService, never()).processBatch(anyString()+"", anyString()+"");
     }
 
     @Test
@@ -110,15 +111,16 @@ class ImportControllerTest {
         final var response = importController.handleFileUpload(supplierUUID, file);
 
         assertThat(response.getStatusCode(), Matchers.is(HttpStatus.NOT_FOUND));
-        verify(batchImportService, never()).processBatch(anyString(), anyString());
+        verify(batchImportService, never()).processBatch(anyString()+"", anyString()+"");
     }
 
     @Test
     @DisplayName("Failed to start job test")
-    void failedToStartJobTest(@Random String supplierUUID, @Random UUID uuid) throws IOException, JobInstanceAlreadyCompleteException,
+    void failedToStartJobTest(@Random UUID uuid) throws IOException, JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         var fileName = uuid.toString() + ".json";
+        var supplierUUID = "1234";
         MultipartFile file = mock(MultipartFile.class);
 
         assertThat(supplierUUID, Matchers.notNullValue());

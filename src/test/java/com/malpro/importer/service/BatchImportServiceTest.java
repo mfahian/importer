@@ -23,7 +23,6 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 
-import io.github.glytching.junit.extension.random.Random;
 import io.github.glytching.junit.extension.random.RandomBeansExtension;
 
 /**
@@ -46,13 +45,11 @@ class BatchImportServiceTest {
 
     @Test
     @DisplayName("Files directory exists test")
-    void filesDirectoryExistsTest(@Random String supplierUUID, @Random String fileName) throws JobExecutionAlreadyRunningException, JobRestartException,
+    void filesDirectoryExistsTest() throws JobExecutionAlreadyRunningException, JobRestartException,
     JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
-        assertThat(supplierUUID, Matchers.notNullValue());
-        assertThat(fileName, Matchers.notNullValue());
-
-        // doNothing().when(jobLauncher).run(itemsProcessJob, any(JobParameters.class));
+        var supplierUUID = "1234";
+        var fileName = "file.json";
 
         batchImportService.processBatch(fileName, supplierUUID);
 
