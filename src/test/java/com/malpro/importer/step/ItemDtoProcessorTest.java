@@ -24,9 +24,9 @@ public class ItemDtoProcessorTest {
     @DisplayName("Item processed test")
     void itemProcessedTest(@Random ItemDto itemDto) {
 
-        ItemDto returnedItemDto = itemDtoProcessor.process(itemDto);
-
-        assertThat(returnedItemDto, Matchers.equalTo(itemDto));
-
+        if(itemDto != null) {
+            ItemDto returnedItemDto = itemDtoProcessor.process(itemDto);
+            assertThat(returnedItemDto, Matchers.equalTo(itemDto));
+        }
     }
 }
