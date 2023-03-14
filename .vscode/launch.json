@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<importer>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.malpro.importer.Application",
+            "projectName": "importer",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
