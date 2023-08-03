@@ -14,8 +14,8 @@ import com.malpro.importer.dto.ItemDto;
 import io.github.glytching.junit.extension.random.Random;
 import io.github.glytching.junit.extension.random.RandomBeansExtension;
 
-@ExtendWith({ MockitoExtension.class, RandomBeansExtension.class })
-public class ItemDtoProcessorTest {
+@ExtendWith({MockitoExtension.class, RandomBeansExtension.class})
+class ItemDtoProcessorTest {
 
     @InjectMocks
     private ItemDtoProcessor itemDtoProcessor;

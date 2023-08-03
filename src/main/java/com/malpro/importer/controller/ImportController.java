@@ -34,7 +34,7 @@ public class ImportController {
 
     @PostMapping("/supplier/{supplierUUID}")
     public ResponseEntity<String> handleFileUpload(@PathVariable String supplierUUID,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam MultipartFile file) {
 
         String fileName;
 

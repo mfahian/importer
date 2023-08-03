@@ -41,12 +41,12 @@ class StorageServiceTest {
 
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         multipartFile = new MockMultipartFile(FILE_NAME, new byte[16]);
     }
 
     @BeforeEach
-    public void initializeConfig() {
+    void initializeConfig() {
         when(importerProperties.getFolder()).thenReturn("importer/files-to-process");
         uploadPath = Paths.get(importerProperties.getFolder());
     }

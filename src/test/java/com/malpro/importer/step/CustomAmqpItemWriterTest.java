@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.glytching.junit.extension.random.RandomBeansExtension;
 
-@ExtendWith({ MockitoExtension.class, RandomBeansExtension.class })
-public class CustomAmqpItemWriterTest {
+@ExtendWith({MockitoExtension.class, RandomBeansExtension.class})
+class CustomAmqpItemWriterTest {
     @Mock
     private AmqpTemplate amqpTemplate;
 
