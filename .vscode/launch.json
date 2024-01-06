@@ -2,7 +2,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-Application<importer>",
+            "name": "importer",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.malpro.importer.Application",

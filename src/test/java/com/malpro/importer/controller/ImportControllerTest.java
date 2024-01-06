@@ -31,8 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.malpro.importer.service.IBatchImportService;
 import com.malpro.importer.service.IStorageService;
 
-import io.github.glytching.junit.extension.random.Random;
-import io.github.glytching.junit.extension.random.RandomBeansExtension;
+import com.malpro.importer.random.Random;
+import com.malpro.importer.random.RandomBeansExtension;
 
 /**
  * Created by fahian on 14.11.22.

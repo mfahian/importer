@@ -21,7 +21,7 @@ import org.springframework.batch.item.Chunk;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.glytching.junit.extension.random.RandomBeansExtension;
+import com.malpro.importer.random.RandomBeansExtension;
 
 @ExtendWith({MockitoExtension.class, RandomBeansExtension.class})
 class CustomAmqpItemWriterTest {

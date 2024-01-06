@@ -11,8 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.malpro.importer.dto.ItemDto;
 
-import io.github.glytching.junit.extension.random.Random;
-import io.github.glytching.junit.extension.random.RandomBeansExtension;
+import com.malpro.importer.random.Random;
+import com.malpro.importer.random.RandomBeansExtension;
 
 @ExtendWith({MockitoExtension.class, RandomBeansExtension.class})
 class ItemDtoProcessorTest {

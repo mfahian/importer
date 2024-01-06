@@ -23,7 +23,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 
-import io.github.glytching.junit.extension.random.RandomBeansExtension;
+import com.malpro.importer.random.RandomBeansExtension;
 
 /**
  * Created by fahian on 30.10.22.
