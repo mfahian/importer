@@ -1,4 +1,4 @@
-FROM eclipse-temurin:19-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 RUN mkdir /app
 WORKDIR /app
 ARG JAR_FILE=target/*.jar
