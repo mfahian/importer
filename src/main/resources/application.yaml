@@ -11,7 +11,9 @@ spring:
     jdbc:
       initialize-schema: always
   rabbitmq:
-    username: admin
-    password: admin
+    username: guest
+    password: guest
+    port: 5672
+    host: localhost
     template:
       exchange:

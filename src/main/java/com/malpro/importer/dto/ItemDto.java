@@ -18,12 +18,14 @@ public class ItemDto {
     private String shortDescription;
     private String longDescription;
     private String globalTradeItemNumber;
-    private String manufacturerCode;
-    private String manufacturerName;
+    private String unit;
+    private String priceQuantity;
+    // private String manufacturerCode;
+    // private String manufacturerName;
     @ToString.Include
     private String etimClass;
     @ToString.Include
-    private String referenceFeatureSystem;
+    private String referenceFeatureSystem = "ETIM-8.0";
     private Map<String, String> featuresMap;
     // private CatalogProductOrderDetailsDto productOrderDetails;
 }
