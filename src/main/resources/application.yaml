@@ -3,8 +3,8 @@ importer:
 spring:
   servlet:
     multipart:
-      max-file-size: 128KB
-      max-request-size: 128KB
+      max-file-size: 10MB
+      max-request-size: 10MB
   batch:
     job:
       enabled: false

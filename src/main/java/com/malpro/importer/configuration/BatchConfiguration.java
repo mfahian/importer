@@ -70,7 +70,7 @@ public class BatchConfiguration {
             ItemDtoProcessor itemDtoProcessor,
             CustomAmqpItemWriter<ItemDto> amqpWriter) {
         return new StepBuilder(LOADER_STEP, jobRepository)
-                .<ItemDto, ItemDto>chunk(1, transactionManager)
+                .<ItemDto, ItemDto>chunk(10, transactionManager)
                 .reader(jsonReader)
                 .processor(itemDtoProcessor)
                 .writer(amqpWriter)
