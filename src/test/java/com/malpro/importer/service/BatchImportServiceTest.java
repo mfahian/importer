@@ -28,6 +28,7 @@ import com.malpro.importer.random.RandomBeansExtension;
 /**
  * Created by fahian on 30.10.22.
  */
+//@SuppressWarnings("null")
 @ExtendWith({ MockitoExtension.class, RandomBeansExtension.class })
 class BatchImportServiceTest {
 

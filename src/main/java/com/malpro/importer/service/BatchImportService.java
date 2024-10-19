@@ -29,9 +29,10 @@ public class BatchImportService implements IBatchImportService {
     }
 
     @Override
-    public void processBatch(@NonNull String fileName, @NonNull String supplierUUID) throws JobExecutionAlreadyRunningException, JobRestartException,
+    public void processBatch(@NonNull String fileName, @NonNull String supplierUUID)
+            throws JobExecutionAlreadyRunningException, JobRestartException,
             JobInstanceAlreadyCompleteException, JobParametersInvalidException {
-        jobLauncher.run(itemsProcessJob, prepareJobParameters(fileName, supplierUUID));
+            jobLauncher.run(itemsProcessJob, prepareJobParameters(fileName, supplierUUID));
     }
 
     private JobParameters prepareJobParameters(@NonNull String fileName, @NonNull String supplierUUID) {
